@@ -32,22 +32,14 @@ Bloodbound adopts a \*\*3-Tier Layered Architecture\*\* to ensure clean separati
 
 
 
-\## 3. Role-Based Access Control (RBAC)
+## 3. Role-Based Access Control (RBAC)
+Bloodbound strictly isolates features across **four distinct user roles**:
+1. **Donor:** Can view personal profile, check eligibility, book camp slots, and respond to matching alerts.
+2. **Hospital Staff / Patient Requester:** Can be a hospital blood bank representative **or** a patient's relative/family member posting and monitoring urgent blood requests.
+3. **Camp Organizer:** Can schedule, manage, and coordinate blood donation camps and track target units.
+4. **Admin:** Oversees system moderation, user verification, and overall platform data.
 
-Bloodbound strictly isolates features across \*\*four distinct user roles\*\*:
-
-1\. \*\*Donor:\*\* Can view personal profile, check eligibility, book camp slots, and respond to matching alerts.
-
-2\. \*\*Hospital Staff:\*\* Can create and monitor urgent blood requests and track inventory allocation.
-
-3\. \*\*Camp Organizer:\*\* Can schedule, manage, and coordinate blood donation camps and track target units.
-
-4\. \*\*Admin:\*\* Oversees system moderation, user verification, and overall platform data.
-
-
-
-\* \*\*Implementation Decision:\*\* Authentication is secured using \*\*JSON Web Tokens (JWT)\*\* and passwords are encrypted using \*\*bcryptjs\*\* hashing. Custom Express middleware (`authorizeRoles`) validates tokens and restricts route access based on role permissions.
-
+* **Implementation Decision:** Authentication is secured using **JSON Web Tokens (JWT)** and passwords are encrypted using **bcryptjs** hashing. Custom Express middleware (`authorizeRoles`) validates tokens and restricts route access based on role permissions.
 
 
 \---
