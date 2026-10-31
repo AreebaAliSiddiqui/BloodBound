@@ -17,9 +17,14 @@ sequenceDiagram
     System->>System: Generate Digital Transit Pass
     System->>Staff: Update Dashboard (Donor Confirmed)
     System->>Donor: Display Transit Pass Details
+```
 
+---
 
+## 2. Donation Camp Slot Pre-Booking Sequence
+This sequence illustrates how a Donor browses and books a time slot for a donation camp.
 
+```mermaid
 sequenceDiagram
     autonumber
     actor Donor as Donor
@@ -37,3 +42,4 @@ sequenceDiagram
     else Slot Full
         System->>Donor: Show "Slot Full" Error & Prompt Alternative
     end
+```
