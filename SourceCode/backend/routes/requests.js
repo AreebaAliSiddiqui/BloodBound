@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../config/db');
 const { verifyToken, authorizeRoles } = require('../middleware/auth');
-const { expireOverdueRequests } = require('../services/matching');
+const { matchDonors, expireOverdueRequests } = require('../services/matching');
 
 const BLOOD_GROUPS = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 const COMPONENTS = ['Whole Blood', 'Packed RBCs', 'Platelets', 'Plasma'];
@@ -56,8 +56,9 @@ router.post('/', authorizeRoles('hospital_staff'), async (req, res) => {
              EXPIRY_HOURS[urgency]]
         );
         const request = inserted.rows[0];
+        const matched = await matchDonors(client, request);
         await client.query('COMMIT');
-        res.status(201).json({ message: 'Request created.', request });
+        res.status(201).json({ message: 'Request created.', request, donors_alerted: matched });
     } catch (err) {
         await client.query('ROLLBACK').catch(() => {});
         console.error('Create Request Error:', err.message);
