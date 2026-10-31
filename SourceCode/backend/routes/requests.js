@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../config/db');
 const { verifyToken, authorizeRoles } = require('../middleware/auth');
+const { computeEligibility } = require('../utils/eligibility');
 const { matchDonors, expireOverdueRequests } = require('../services/matching');
 
 const BLOOD_GROUPS = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
@@ -90,6 +91,35 @@ router.get('/', authorizeRoles('hospital_staff'), async (req, res) => {
     }
 });
 
+// ---------- DONOR ALERTS (must be before /:id) ----------
+
+// GET /api/requests/alerts : requests matched to me. Contact details stay hidden until I accept.
+router.get('/alerts', authorizeRoles('donor'), async (req, res) => {
+    try {
+        await refreshExpiry();
+        const result = await pool.query(
+            `SELECT r.request_id, r.blood_group, r.component, r.units_required, r.urgency, r.status,
+                    r.city, r.hospital_name, r.expires_at, r.created_at,
+                    m.response_status,
+                    CASE WHEN m.response_status = 'Accepted' THEN r.hospital_address END AS hospital_address,
+                    CASE WHEN m.response_status = 'Accepted' THEN hu.phone END AS hospital_contact
+             FROM matching_logs m
+             JOIN donor_profiles d ON d.donor_id = m.donor_id
+             JOIN hospital_requests r ON r.request_id = m.request_id
+             JOIN users hu ON hu.user_id = r.hospital_id
+             WHERE d.user_id = $1
+               AND r.status IN ('Pending', 'Matching')
+               AND r.expires_at > NOW()
+             ORDER BY r.created_at DESC`,
+            [req.user.user_id]
+        );
+        res.json(result.rows);
+    } catch (err) {
+        console.error('Alerts Error:', err.message);
+        res.status(500).json({ error: 'Server error fetching alerts.' });
+    }
+});
+
 // ---------- HOSPITAL: single request ----------
 
 // GET /api/requests/:id : details + accepted donors (their contact is visible only after they accept)
@@ -136,6 +166,130 @@ router.put('/:id/cancel', authorizeRoles('hospital_staff'), async (req, res) => 
     } catch (err) {
         console.error('Cancel Error:', err.message);
         res.status(500).json({ error: 'Server error cancelling request.' });
+    }
+});
+
+// PUT /api/requests/:id/fulfill : hospital confirms donation. Updates donors' last donation date.
+router.put('/:id/fulfill', authorizeRoles('hospital_staff'), async (req, res) => {
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
+        const r = await client.query(
+            'SELECT status FROM hospital_requests WHERE request_id = $1 AND hospital_id = $2 FOR UPDATE',
+            [req.params.id, req.user.user_id]
+        );
+        if (r.rows.length === 0) {
+            await client.query('ROLLBACK');
+            return res.status(404).json({ error: 'Request not found.' });
+        }
+        if (r.rows[0].status !== 'Matching') {
+            await client.query('ROLLBACK');
+            return res.status(409).json({ error: 'Only requests with accepted donors can be fulfilled.' });
+        }
+        await client.query(
+            `UPDATE donor_profiles SET last_donation_date = CURRENT_DATE, is_eligible = FALSE
+             WHERE donor_id IN (SELECT donor_id FROM matching_logs
+                                WHERE request_id = $1 AND response_status = 'Accepted')`,
+            [req.params.id]
+        );
+        await client.query(
+            `UPDATE matching_logs SET response_status = 'Donated'
+             WHERE request_id = $1 AND response_status = 'Accepted'`, [req.params.id]);
+        await client.query(`UPDATE hospital_requests SET status = 'Fulfilled' WHERE request_id = $1`, [req.params.id]);
+        await client.query('COMMIT');
+        res.json({ message: 'Request fulfilled. Donor records updated.' });
+    } catch (err) {
+        await client.query('ROLLBACK').catch(() => {});
+        console.error('Fulfill Error:', err.message);
+        res.status(500).json({ error: 'Server error fulfilling request.' });
+    } finally {
+        client.release();
+    }
+});
+
+// ---------- DONOR: accept / withdraw ----------
+
+// POST /api/requests/:id/accept
+router.post('/:id/accept', authorizeRoles('donor'), async (req, res) => {
+    const client = await pool.connect();
+    const fail = async (code, msg) => { await client.query('ROLLBACK').catch(() => {}); return res.status(code).json({ error: msg }); };
+    try {
+        await client.query('BEGIN');
+        const r = await client.query(
+            `SELECT r.*, hu.phone AS hospital_contact
+             FROM hospital_requests r JOIN users hu ON hu.user_id = r.hospital_id
+             WHERE r.request_id = $1 FOR UPDATE OF r`, [req.params.id]);
+        if (r.rows.length === 0) return fail(404, 'Request not found.');
+        const request = r.rows[0];
+        if (!['Pending', 'Matching'].includes(request.status) || new Date(request.expires_at) < new Date()) {
+            return fail(409, 'This request is no longer open.');
+        }
+
+        const d = await client.query('SELECT donor_id, last_donation_date FROM donor_profiles WHERE user_id = $1', [req.user.user_id]);
+        if (d.rows.length === 0) return fail(404, 'Donor profile not found.');
+        const donor = d.rows[0];
+        if (!computeEligibility(donor.last_donation_date).eligible) return fail(403, 'You are not eligible to donate yet.');
+
+        const log = await client.query(
+            'SELECT response_status FROM matching_logs WHERE request_id = $1 AND donor_id = $2 FOR UPDATE',
+            [req.params.id, donor.donor_id]);
+        if (log.rows.length === 0) return fail(403, 'This request was not matched to you.');
+        if (log.rows[0].response_status === 'Accepted') return fail(409, 'You have already accepted this request.');
+
+        const count = await client.query(
+            `SELECT COUNT(*)::int AS n FROM matching_logs WHERE request_id = $1 AND response_status = 'Accepted'`, [req.params.id]);
+        if (count.rows[0].n >= request.units_required) return fail(409, 'Enough donors have already accepted.');
+
+        await client.query(
+            `UPDATE matching_logs SET response_status = 'Accepted' WHERE request_id = $1 AND donor_id = $2`,
+            [req.params.id, donor.donor_id]);
+        await client.query(`UPDATE hospital_requests SET status = 'Matching' WHERE request_id = $1`, [req.params.id]);
+        await client.query('COMMIT');
+
+        res.json({
+            message: 'Thank you! Request accepted.',
+            hospital_name: request.hospital_name,
+            hospital_address: request.hospital_address,
+            hospital_contact: request.hospital_contact
+        });
+    } catch (err) {
+        await client.query('ROLLBACK').catch(() => {});
+        console.error('Accept Error:', err.message);
+        res.status(500).json({ error: 'Server error accepting request.' });
+    } finally {
+        client.release();
+    }
+});
+
+// POST /api/requests/:id/withdraw : donor cancels a previous acceptance
+router.post('/:id/withdraw', authorizeRoles('donor'), async (req, res) => {
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
+        await client.query('SELECT 1 FROM hospital_requests WHERE request_id = $1 FOR UPDATE', [req.params.id]);
+        const updated = await client.query(
+            `UPDATE matching_logs SET response_status = 'Withdrawn'
+             WHERE request_id = $1 AND response_status = 'Accepted'
+               AND donor_id = (SELECT donor_id FROM donor_profiles WHERE user_id = $2)
+             RETURNING log_id`, [req.params.id, req.user.user_id]);
+        if (updated.rows.length === 0) {
+            await client.query('ROLLBACK');
+            return res.status(409).json({ error: 'You have not accepted this request.' });
+        }
+        // If nobody is left, the request goes back to Open (Pending).
+        await client.query(
+            `UPDATE hospital_requests SET status = 'Pending'
+             WHERE request_id = $1 AND status = 'Matching'
+               AND NOT EXISTS (SELECT 1 FROM matching_logs WHERE request_id = $1 AND response_status = 'Accepted')`,
+            [req.params.id]);
+        await client.query('COMMIT');
+        res.json({ message: 'Acceptance withdrawn.' });
+    } catch (err) {
+        await client.query('ROLLBACK').catch(() => {});
+        console.error('Withdraw Error:', err.message);
+        res.status(500).json({ error: 'Server error withdrawing.' });
+    } finally {
+        client.release();
     }
 });
 
