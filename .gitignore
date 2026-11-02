@@ -12,3 +12,6 @@ pnpm-debug.log*
 
 # OS Files
 Thumbs.db
+.agents/
+skills-lock.json
+.neon
