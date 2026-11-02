@@ -1,4 +1,7 @@
-const { Pool } = require('pg');
+const { Pool, types } = require('pg');
+
+// Return DATE columns as plain 'YYYY-MM-DD' strings (avoids timezone off-by-one).
+types.setTypeParser(1082, (v) => v);
 
 // Uses DATABASE_URL if set, otherwise the standard PG* variables
 // (PGHOST, PGPORT, PGUSER, PGPASSWORD, PGDATABASE).
@@ -13,3 +16,4 @@ pool.on('error', (err) => {
 });
 
 module.exports = pool;
+
