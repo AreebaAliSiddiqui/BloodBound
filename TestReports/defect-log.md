@@ -6,3 +6,7 @@
 
 ## Observations, not defects
 - The capacity-limit manual test failed once because PowerShell removed the quotes in the helper command. This was a test-tool problem, not an application defect. The automated test `booking.test.js` covers it.
+
+## Automated retest
+
+2026-11-02: regression test DEF-01 (Tests/defects.test.js) passed.
