@@ -9,6 +9,7 @@ const campRoutes = require('./routes/camps');
 const bookingRoutes = require('./routes/bookings');
 const attendanceRoutes = require('./routes/attendance');
 const adminRoutes = require('./routes/admin');
+const publicRoutes = require('./routes/public');
 const { expireOverdueRequests } = require('./services/matching');
 const { refreshCampStatuses } = require('./services/camps');
 
@@ -27,6 +28,7 @@ app.use('/api/camps', campRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/public', publicRoutes);
 
 // Base Route
 app.get('/', (req, res) => {
