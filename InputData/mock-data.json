@@ -1,0 +1,44 @@
+{
+  "password": "Demo@1234",
+  "users": [
+    { "role": "admin", "name": "Demo Admin", "email": "admin.demo@bloodbound.org", "phone": "+923000000011" },
+    { "role": "hospital_staff", "name": "City General Hospital", "email": "hospital.demo@bloodbound.org", "phone": "+923000000012" },
+    { "role": "hospital_staff", "name": "Hyderabad Care Hospital", "email": "hyd.hospital.demo@bloodbound.org", "phone": "+923000000015" },
+    { "role": "camp_organizer", "name": "Karachi Youth Blood Club", "email": "organizer.demo@bloodbound.org", "phone": "+923000000013" },
+    { "role": "camp_organizer", "name": "Hyderabad Student Society", "email": "hyd.organizer.demo@bloodbound.org", "phone": "+923000000016" },
+    { "role": "donor", "name": "Demo Donor", "email": "donor.demo@bloodbound.org", "phone": "+923000000014", "blood_group": "O-", "city": "Karachi", "last_donation_date": null },
+    { "role": "donor", "name": "Ayesha Khan", "email": "ayesha.donor@bloodbound.org", "phone": "+923000000021", "blood_group": "A+", "city": "Karachi", "last_donation_date": "2026-01-10" },
+    { "role": "donor", "name": "Bilal Ahmed", "email": "bilal.donor@bloodbound.org", "phone": "+923000000022", "blood_group": "B+", "city": "Karachi", "last_donation_date": "2026-10-20" },
+    { "role": "donor", "name": "Sana Malik", "email": "sana.donor@bloodbound.org", "phone": "+923000000023", "blood_group": "O-", "city": "Karachi", "last_donation_date": "2026-02-14" },
+    { "role": "donor", "name": "Hamza Ali", "email": "hamza.donor@bloodbound.org", "phone": "+923000000024", "blood_group": "AB+", "city": "Hyderabad", "last_donation_date": null },
+    { "role": "donor", "name": "Mehak Shah", "email": "mehak.donor@bloodbound.org", "phone": "+923000000025", "blood_group": "A-", "city": "Hyderabad", "last_donation_date": "2026-03-05" },
+    { "role": "donor", "name": "Usman Raza", "email": "usman.donor@bloodbound.org", "phone": "+923000000026", "blood_group": "O+", "city": "Karachi", "last_donation_date": null },
+    { "role": "donor", "name": "Zara Hussain", "email": "zara.donor@bloodbound.org", "phone": "+923000000027", "blood_group": "B-", "city": "Hyderabad", "last_donation_date": "2026-05-30" }
+  ],
+  "requests": [
+    { "hospital": "hospital.demo@bloodbound.org", "patient_identifier": "PAT-1001", "blood_group": "O-", "component": "Packed RBCs", "units_required": 2, "urgency": "Critical", "city": "Karachi", "hospital_name": "City General Hospital", "hospital_address": "Clifton Road, Block 4, Karachi" },
+    { "hospital": "hospital.demo@bloodbound.org", "patient_identifier": "PAT-1002", "blood_group": "A+", "component": "Whole Blood", "units_required": 1, "urgency": "High", "city": "Karachi", "hospital_name": "City General Hospital", "hospital_address": "Clifton Road, Block 4, Karachi" },
+    { "hospital": "hyd.hospital.demo@bloodbound.org", "patient_identifier": "PAT-2001", "blood_group": "AB+", "component": "Platelets", "units_required": 1, "urgency": "Normal", "city": "Hyderabad", "hospital_name": "Hyderabad Care Hospital", "hospital_address": "Autobahn Road, Hyderabad" },
+    { "hospital": "hyd.hospital.demo@bloodbound.org", "patient_identifier": "PAT-2002", "blood_group": "B-", "component": "Plasma", "units_required": 2, "urgency": "High", "city": "Hyderabad", "hospital_name": "Hyderabad Care Hospital", "hospital_address": "Autobahn Road, Hyderabad" }
+  ],
+  "camps": [
+    { "organizer": "organizer.demo@bloodbound.org", "camp_name": "Karachi Community Blood Drive", "location_address": "Community Hall, Gulshan-e-Iqbal", "city": "Karachi", "startInDays": 5, "startHour": 10, "durationHours": 6, "max_capacity": 50, "target_units": 40, "publish": true },
+    { "organizer": "organizer.demo@bloodbound.org", "camp_name": "University Donation Day", "location_address": "NED University Campus Ground", "city": "Karachi", "startInDays": 12, "startHour": 9, "durationHours": 8, "max_capacity": 100, "target_units": 80, "publish": true },
+    { "organizer": "hyd.organizer.demo@bloodbound.org", "camp_name": "Hyderabad Blood Camp", "location_address": "City Park Pavilion", "city": "Hyderabad", "startInDays": 8, "startHour": 11, "durationHours": 5, "max_capacity": 30, "target_units": 25, "publish": true },
+    { "organizer": "hyd.organizer.demo@bloodbound.org", "camp_name": "Winter Awareness Drive", "location_address": "Public Library Lawn", "city": "Hyderabad", "startInDays": 20, "startHour": 10, "durationHours": 4, "max_capacity": 20, "target_units": 15, "publish": false }
+  ],
+  "bookings": [
+    { "donor": "donor.demo@bloodbound.org", "camp_name": "Karachi Community Blood Drive" },
+    { "donor": "ayesha.donor@bloodbound.org", "camp_name": "Karachi Community Blood Drive" },
+    { "donor": "usman.donor@bloodbound.org", "camp_name": "Karachi Community Blood Drive" },
+    { "donor": "sana.donor@bloodbound.org", "camp_name": "University Donation Day" },
+    { "donor": "hamza.donor@bloodbound.org", "camp_name": "Hyderabad Blood Camp" },
+    { "donor": "mehak.donor@bloodbound.org", "camp_name": "Hyderabad Blood Camp" }
+  ],
+  "accepts": [
+    { "donor": "donor.demo@bloodbound.org", "patient_identifier": "PAT-1001" },
+    { "donor": "sana.donor@bloodbound.org", "patient_identifier": "PAT-1001" },
+    { "donor": "ayesha.donor@bloodbound.org", "patient_identifier": "PAT-1002" },
+    { "donor": "hamza.donor@bloodbound.org", "patient_identifier": "PAT-2001" }
+  ]
+}
