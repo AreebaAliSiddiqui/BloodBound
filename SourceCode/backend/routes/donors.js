@@ -90,4 +90,31 @@ router.get('/me/eligibility', async (req, res) => {
     }
 });
 
+// GET /api/donors/me/reminders : reminder message & eligibility status (SCRUM-33)
+router.get('/me/reminders', async (req, res) => {
+    try {
+        const result = await pool.query(
+            'SELECT last_donation_date FROM donor_profiles WHERE user_id = $1',
+            [req.user.user_id]
+        );
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Donor profile not found.' });
+        }
+        const lastDonation = result.rows[0].last_donation_date;
+        const e = computeEligibility(lastDonation);
+        res.json({
+            eligible: e.eligible,
+            reminder: e.reminder,
+            reminder_status: e.reminder_status,
+            days_remaining: e.days_remaining,
+            next_eligible_date: e.next_eligible_date,
+            last_donation_date: lastDonation ? new Date(lastDonation).toISOString().slice(0, 10) : null,
+            gap_days: e.gap_days
+        });
+    } catch (err) {
+        console.error('Reminder Error:', err.message);
+        res.status(500).json({ error: 'Server error checking reminders.' });
+    }
+});
+
 module.exports = router;

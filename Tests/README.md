@@ -19,7 +19,7 @@ so the tests can be repeated without clashing. The tests use the database in
 | File | Ticket |
 |---|---|
 | auth.test.js | SCRUM-27 registration, login, role access |
-| eligibility.test.js | SCRUM-33 eligibility calculation (unit) |
+| eligibility.test.js, reminders.test.js | SCRUM-33 eligibility calculation and reminders |
 | donors.test.js | SCRUM-28 donor profile |
 | requests.test.js | SCRUM-29 blood requests |
 | compatibility.test.js, matching.test.js | SCRUM-30 matching |
