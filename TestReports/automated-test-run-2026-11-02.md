@@ -19,3 +19,8 @@ Command: `node --test --test-concurrency=1 "Tests/*.test.js"` against the Neon d
 Duration: about 132 seconds.
 
 Not yet built, so not tested: SCRUM-37 admin dashboard, SCRUM-32 WhatsApp link, SCRUM-33 reminders.
+
+## Full regression after SCRUM-32, 33 and 37
+
+106 of 106 automated tests passed (node --test, 2026-11-02), including admin, WhatsApp share and reminder tests.
+
