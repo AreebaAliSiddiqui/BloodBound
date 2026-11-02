@@ -3,10 +3,17 @@ import { AuthProvider, useAuth } from './auth'
 import Layout from './Layout'
 import { Login, Register } from './pages/Auth'
 import Home from './pages/Home'
+import Landing from './pages/Landing'
 import { Alerts, Camps, Profile } from './pages/donor'
 import { MyRequests, NewRequest, RequestDetail } from './pages/hospital'
 import { NewCamp, Roster } from './pages/organizer'
 import { AdminRequests, AdminUsers } from './pages/admin'
+
+// Logged-out visitors see the public landing page; logged-in users get their role's workspace.
+function Root() {
+  const { user } = useAuth()
+  return user ? <Layout /> : <Landing />
+}
 
 function Guard({ roles, children }) {
   const { user } = useAuth()
@@ -24,7 +31,7 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route element={<Guard><Layout /></Guard>}>
+          <Route path="/" element={<Root />}>
             <Route index element={<Home />} />
             <Route path="alerts" element={only(['donor'], <Alerts />)} />
             <Route path="camps" element={only(['donor'], <Camps />)} />
