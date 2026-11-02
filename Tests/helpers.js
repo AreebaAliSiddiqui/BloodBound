@@ -6,6 +6,10 @@ const assert = require('node:assert/strict');
 const backend = path.join(__dirname, '..', 'SourceCode', 'backend');
 require(path.join(backend, 'node_modules', 'dotenv')).config({ path: path.join(backend, '.env') });
 const { Client } = require(path.join(backend, 'node_modules', 'pg'));
+const bcrypt = require(path.join(backend, 'node_modules', 'bcryptjs'));
+const jwt = require(path.join(backend, 'node_modules', 'jsonwebtoken'));
+
+const JWT_SECRET = process.env.JWT_SECRET || 'bloodbound_super_secret_key_2026';
 
 const BASE = process.env.API_URL || 'http://localhost:5000/api';
 
@@ -74,5 +78,24 @@ async function createPublishedCamp(orgToken, city, o = {}) {
     return camp;
 }
 
-module.exports = { BASE, uid, uniqueCity, dayStr, addDays, api, register, registerDonor, db,
+async function registerAdmin(extra = {}) {
+    const email = `admin.${uid()}@test.local`;
+    const password = extra.password || 'password123';
+    const hash = await bcrypt.hash(password, 10);
+    const r = await db(
+        `INSERT INTO users (name, email, password_hash, role, phone, is_active)
+         VALUES ($1, $2, $3, 'admin', '03000000000', TRUE)
+         RETURNING user_id, name, email, role, phone, is_active`,
+        [extra.name || `Admin ${uid()}`, email, hash]
+    );
+    const user = r.rows[0];
+    const token = jwt.sign(
+        { user_id: user.user_id, email: user.email, role: 'admin', is_active: true },
+        JWT_SECRET,
+        { expiresIn: '24h' }
+    );
+    return { email, token, user, phone: user.phone, password };
+}
+
+module.exports = { BASE, uid, uniqueCity, dayStr, addDays, api, register, registerDonor, registerAdmin, db,
                    requestBody, createRequest, campBody, createCamp, createPublishedCamp };

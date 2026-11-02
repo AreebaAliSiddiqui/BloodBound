@@ -28,6 +28,7 @@ so the tests can be repeated without clashing. The tests use the database in
 | camps.test.js | SCRUM-34 camps |
 | booking.test.js | SCRUM-35 slot booking |
 | attendance.test.js | SCRUM-36 check-in and donation |
+| admin.test.js | SCRUM-37 admin dashboard, user management and request moderation |
 | defects.test.js | SCRUM-39 regression tests for fixed defects |
 
 Written reports are in `TestReports/`.

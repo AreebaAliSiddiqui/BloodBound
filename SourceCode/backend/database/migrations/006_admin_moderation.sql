@@ -1,0 +1,11 @@
+-- Migration 006: admin moderation & user deactivation (SCRUM-37)
+ALTER TABLE users
+    ADD COLUMN IF NOT EXISTS is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    ADD COLUMN IF NOT EXISTS deactivated_at TIMESTAMP WITH TIME ZONE,
+    ADD COLUMN IF NOT EXISTS deactivation_reason TEXT;
+
+ALTER TABLE hospital_requests
+    ADD COLUMN IF NOT EXISTS is_moderated BOOLEAN NOT NULL DEFAULT FALSE,
+    ADD COLUMN IF NOT EXISTS moderated_by UUID REFERENCES users(user_id) ON DELETE SET NULL,
+    ADD COLUMN IF NOT EXISTS moderation_reason TEXT,
+    ADD COLUMN IF NOT EXISTS moderated_at TIMESTAMP WITH TIME ZONE;
