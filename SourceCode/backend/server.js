@@ -5,7 +5,9 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const donorRoutes = require('./routes/donors');
 const requestRoutes = require('./routes/requests');
+const campRoutes = require('./routes/camps');
 const { expireOverdueRequests } = require('./services/matching');
+const { refreshCampStatuses } = require('./services/camps');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -18,6 +20,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/donors', donorRoutes);
 app.use('/api/requests', requestRoutes);
+app.use('/api/camps', campRoutes);
 
 // Base Route
 app.get('/', (req, res) => {
@@ -32,6 +35,10 @@ app.get('/api/health', (req, res) => {
 // Auto-expiry job: runs every minute
 setInterval(() => {
     expireOverdueRequests().catch((e) => console.error('Expiry job error:', e.message));
+}, 60 * 1000);
+
+setInterval(() => {
+    refreshCampStatuses().catch((e) => console.error('Camp status job error:', e.message));
 }, 60 * 1000);
 
 app.listen(PORT, () => {
