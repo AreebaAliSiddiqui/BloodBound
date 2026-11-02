@@ -4,6 +4,7 @@ const pool = require('../config/db');
 const { verifyToken, authorizeRoles } = require('../middleware/auth');
 const { computeEligibility } = require('../utils/eligibility');
 const { matchDonors, expireOverdueRequests } = require('../services/matching');
+const { formatWhatsAppMessage, generateWhatsAppUrl } = require('../utils/whatsapp');
 
 const BLOOD_GROUPS = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 const COMPONENTS = ['Whole Blood', 'Packed RBCs', 'Platelets', 'Plasma'];
@@ -59,7 +60,12 @@ router.post('/', authorizeRoles('hospital_staff'), async (req, res) => {
         const request = inserted.rows[0];
         const matched = await matchDonors(client, request);
         await client.query('COMMIT');
-        res.status(201).json({ message: 'Request created.', request, donors_alerted: matched });
+        res.status(201).json({
+            message: 'Request created.',
+            request,
+            donors_alerted: matched,
+            whatsapp_url: generateWhatsAppUrl(request)
+        });
     } catch (err) {
         await client.query('ROLLBACK').catch(() => {});
         console.error('Create Request Error:', err.message);
@@ -120,6 +126,37 @@ router.get('/alerts', authorizeRoles('donor'), async (req, res) => {
     }
 });
 
+// ---------- WHATSAPP SHARE (SCRUM-32) ----------
+
+// GET /api/requests/:id/share/whatsapp : one-tap WhatsApp share link & pre-filled text
+router.get('/:id/share/whatsapp', async (req, res) => {
+    try {
+        await refreshExpiry();
+        const r = await pool.query(
+            'SELECT * FROM hospital_requests WHERE request_id = $1',
+            [req.params.id]
+        );
+        if (r.rows.length === 0) return res.status(404).json({ error: 'Request not found.' });
+        const request = r.rows[0];
+        const message = formatWhatsAppMessage(request);
+        const whatsapp_url = generateWhatsAppUrl(request);
+
+        if (req.query.redirect === 'true') {
+            return res.redirect(302, whatsapp_url);
+        }
+
+        res.json({
+            request_id: request.request_id,
+            status: request.status,
+            message,
+            whatsapp_url
+        });
+    } catch (err) {
+        console.error('WhatsApp Share Error:', err.message);
+        res.status(500).json({ error: 'Server error generating WhatsApp share link.' });
+    }
+});
+
 // ---------- HOSPITAL: single request ----------
 
 // GET /api/requests/:id : details + accepted donors (their contact is visible only after they accept)
@@ -143,7 +180,12 @@ router.get('/:id', authorizeRoles('hospital_staff'), async (req, res) => {
              JOIN users u ON u.user_id = d.user_id
              WHERE m.request_id = $1 AND m.response_status = 'Accepted'`, [req.params.id]);
 
-        res.json({ request: r.rows[0], ...counts.rows[0], accepted_donors: accepted.rows });
+        res.json({
+            request: r.rows[0],
+            ...counts.rows[0],
+            accepted_donors: accepted.rows,
+            whatsapp_url: generateWhatsAppUrl(r.rows[0])
+        });
     } catch (err) {
         console.error('Get Request Error:', err.message);
         res.status(500).json({ error: 'Server error fetching request.' });

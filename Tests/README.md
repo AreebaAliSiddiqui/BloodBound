@@ -24,6 +24,7 @@ so the tests can be repeated without clashing. The tests use the database in
 | requests.test.js | SCRUM-29 blood requests |
 | compatibility.test.js, matching.test.js | SCRUM-30 matching |
 | accept.test.js | SCRUM-31 accept / withdraw / fulfil |
+| whatsapp.test.js | SCRUM-32 one-tap WhatsApp share link |
 | camps.test.js | SCRUM-34 camps |
 | booking.test.js | SCRUM-35 slot booking |
 | attendance.test.js | SCRUM-36 check-in and donation |
