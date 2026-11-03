@@ -29,17 +29,18 @@
 
 1. [What is Bloodbound?](#what-is-bloodbound)
 2. [Features](#features)
-3. [How it works](#how-it-works)
-4. [Tech stack and architecture](#tech-stack-and-architecture)
-5. [Folder structure](#folder-structure)
-6. [Getting started](#getting-started)
-7. [Demo accounts and mock data](#demo-accounts-and-mock-data)
-8. [Business rules](#business-rules)
-9. [API reference](#api-reference)
-10. [Testing](#testing)
-11. [Deliverables](#deliverables)
-12. [Conventions and workflow](#conventions-and-workflow)
-13. [Known limitations](#known-limitations)
+3. [Screenshots](#screenshots)
+4. [How it works](#how-it-works)
+5. [Tech stack and architecture](#tech-stack-and-architecture)
+6. [Folder structure](#folder-structure)
+7. [Getting started](#getting-started)
+8. [Demo accounts and mock data](#demo-accounts-and-mock-data)
+9. [Business rules](#business-rules)
+10. [API reference](#api-reference)
+11. [Testing](#testing)
+12. [Deliverables](#deliverables)
+13. [Conventions and workflow](#conventions-and-workflow)
+14. [Known limitations](#known-limitations)
 
 ---
 
@@ -74,6 +75,33 @@ There are no separate portals. There is **one website and one sign-in**, and the
 - Camp capacity limits enforced safely under concurrent bookings
 - Blood inventory with component-specific expiry (for example, whole blood 35 days, platelets 5 days)
 - Public landing page showing the real live request and real open camps
+
+## Screenshots
+
+### Public landing page
+The homepage shows the real live request straight from the database: blood group, units, hospital, confirmed donors and time left. Patient details stay private.
+
+![Landing page with live request](Design/screenshots/01-landing-live-request.png)
+
+### Donation camps open now
+Published camps appear for everyone, with real dates, times and slots left.
+
+![Open donation camps](Design/screenshots/02-open-donation-camps.png)
+
+### Donor workspace
+After signing in, a donor sees their eligibility, matched emergency alerts and upcoming bookings.
+
+![Donor home](Design/screenshots/03-donor-home.png)
+
+### Camp organizer workspace
+Organizers manage their camps, with live booking, check-in and unit counts, and open the roster on the day.
+
+![Organizer camps](Design/screenshots/04-organizer-camps.png)
+
+### Admin dashboard
+Admins get platform-wide statistics for users, blood requests and camps, plus user and request moderation.
+
+![Admin dashboard](Design/screenshots/05-admin-dashboard.png)
 
 ## How it works
 
@@ -124,6 +152,7 @@ Bloodbound/
 ├── Proposal/        D1  Proposal and feasibility
 ├── SRS/             D2  SRS, requirements, user stories, specs, wireframes
 ├── Design/          D3  ER diagram, architecture decisions, tech stack
+│   └── screenshots/    Application screenshots used in this README
 ├── SourceCode/      D4  Implementation
 │   ├── backend/        Express API
 │   │   ├── routes/        auth, donors, requests, camps, bookings, attendance, admin, public
