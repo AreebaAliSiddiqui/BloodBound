@@ -1,0 +1,17 @@
+/* Landing-page footer ("cs" = creation scene). Used only by the home page; the workspace footer is untouched. */
+
+/* Solid red footer block, full width. Anything wider than the screen is clipped. */
+.cs { background:#A5132E; color:#fff; overflow:hidden; font-family:'DM Sans',system-ui,sans-serif; }
+
+/* Motto area above the artwork */
+.cs-top { text-align:center; padding:72px 24px 8px; max-width:900px; margin:0 auto; }
+.cs-motto { font-family:'Bricolage Grotesque',sans-serif; font-size:clamp(30px,5vw,56px); line-height:1.08; letter-spacing:-0.02em; font-weight:800; margin:0 0 14px; color:#fff; }
+.cs-sub { opacity:.92; font-size:18px; margin:0 0 26px; }
+.cs-btn { display:inline-block; background:#fff; color:#7D0E22; font-weight:700; padding:14px 30px; border-radius:999px; text-decoration:none; }
+
+/* The artwork scales with the screen width but never gets bigger than 1400px */
+.cs-scene { display:block; width:100%; max-width:1400px; margin:0 auto; }
+
+/* Dark bottom strip with the project name and credits */
+.cs-bar { background:#5C0A18; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding:18px 24px; font-size:14px; }
+.cs-love { display:inline-flex; align-items:center; gap:6px; }
