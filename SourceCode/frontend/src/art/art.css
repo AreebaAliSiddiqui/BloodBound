@@ -1,0 +1,19 @@
+.sf { background:#A5132E; color:#fff; margin-top:64px; overflow:hidden; font-family:'DM Sans',system-ui,sans-serif; }
+.sf-top { text-align:center; padding:72px 24px 8px; max-width:900px; margin:0 auto; }
+.sf-motto { font-family:'Bricolage Grotesque',sans-serif; font-size:clamp(30px,5vw,56px); line-height:1.08; letter-spacing:-0.02em; font-weight:800; margin:0 0 14px; color:#fff; }
+.sf-sub { opacity:.92; font-size:18px; margin:0 0 26px; }
+.sf-btn { display:inline-block; background:#fff; color:#7D0E22; font-weight:700; padding:14px 30px; border-radius:999px; text-decoration:none; }
+.sf-scene { display:block; width:100%; max-width:1400px; margin:0 auto; }
+.sf-bar { background:#5C0A18; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; padding:18px 24px; font-size:14px; }
+.sf-pad { padding-bottom:84px; }
+
+.wb { background:#7D0E22; color:#fff; font-family:'DM Sans',system-ui,sans-serif; }
+.wb-in { max-width:960px; margin:0 auto; padding:18px 16px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.wb-big .wb-in { padding:34px 16px; }
+.wb-eyebrow { font-size:12px; font-weight:700; letter-spacing:.08em; opacity:.8; margin-bottom:4px; }
+.wb-title { font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:26px; letter-spacing:-0.02em; margin:0; }
+.wb-big .wb-title { font-size:40px; }
+.wb-sub { margin:8px 0 0; opacity:.92; max-width:460px; line-height:1.5; }
+.wb-art { width:200px; flex:none; }
+.wb-big .wb-art { width:320px; }
+@media (max-width:640px) { .wb-art { display:none; } .wb-big .wb-title { font-size:30px; } }
