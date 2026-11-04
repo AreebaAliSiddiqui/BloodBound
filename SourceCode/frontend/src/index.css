@@ -28,3 +28,15 @@ input, select { width:100%; padding:9px; border:1px solid var(--line); border-ra
 .msg.err { background:#FDECEF; color:var(--red-d); }
 .msg.ok { background:#dcfce7; color:#166534; }
 .auth { max-width:400px; margin:40px auto; padding:0 16px; }
+
+/* ---- workspace polish ---- */
+body { background:#FBF6F7; }
+.top { background:var(--red); color:#fff; border-bottom:0; }
+.top .link { color:#fff; text-decoration:underline; }
+.page { max-width:960px; padding-top:28px; padding-bottom:8px; }
+.page h2 { font-family:'Bricolage Grotesque',sans-serif; letter-spacing:-0.02em; position:relative; padding-left:16px; margin:4px 0 16px; }
+.page h2::before { content:''; position:absolute; left:0; top:.18em; bottom:.18em; width:6px; border-radius:3px; background:var(--red); }
+.page h3 { font-family:'Bricolage Grotesque',sans-serif; }
+.card { box-shadow:0 2px 10px rgba(125,14,34,.07); }
+.tile { box-shadow:0 2px 10px rgba(125,14,34,.07); border-top:4px solid var(--red); }
+.bottom { box-shadow:0 -4px 16px rgba(0,0,0,.06); }
