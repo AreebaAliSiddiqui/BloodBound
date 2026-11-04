@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import { useLoad } from '../api'
 import { useAuth } from '../auth'
 import { BLOOD } from '../ui'
-import SiteFooter from '../art/SiteFooter'
+// New landing-page footer with the two reaching hands (the workspaces keep SiteFooter)
+import CreationScene from '../art/CreationScene'
 import './landing.css'
 
 const day = (d) => new Date(d).toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' })
@@ -147,7 +148,7 @@ export default function Landing() {
         <SignIn />
       </div>
 
-      <SiteFooter cta />
+      <CreationScene />
     </div>
   )
 }
