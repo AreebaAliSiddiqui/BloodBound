@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useLoad } from '../api'
 import { useAuth } from '../auth'
 import { BLOOD } from '../ui'
+import SiteFooter from '../art/SiteFooter'
 import './landing.css'
 
 const day = (d) => new Date(d).toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' })
@@ -78,10 +79,11 @@ export default function Landing() {
   const camps = useLoad('/public/camps')
   return (
     <div className="lp">
-      <div className="lp-w lp-nav">
-        <a href="#top" className="lp-logo d"><svg width="30" height="30" viewBox="0 0 24 24" fill="#A5132E" aria-hidden="true"><path d="M12 2.5c3.5 4.6 6 7.8 6 11a6 6 0 1 1-12 0c0-3.2 2.5-6.4 6-11z" /></svg>Bloodbound</a>
+      <div className="lp-top"><div className="lp-w lp-nav">
+        <a href="#top" className="lp-logo d"><svg width="30" height="30" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2.5c3.5 4.6 6 7.8 6 11a6 6 0 1 1-12 0c0-3.2 2.5-6.4 6-11z" /></svg>Bloodbound</a>
         <nav><a href="#live">Live request</a><a href="#camps">Donation camps</a><a href="#how">How it works</a></nav>
         <div className="lp-btns"><a className="lp-g" href="#signin">Sign in</a><Link className="lp-b" to="/register">Join Bloodbound</Link></div>
+      </div>
       </div>
 
       <div id="live" className="lp-w lp-hero">
@@ -145,8 +147,7 @@ export default function Landing() {
         <SignIn />
       </div>
 
-      <div className="lp-cta"><h2 className="d">Your next donation could be someone's second chance.</h2><Link to="/register">Create your account</Link></div>
-      <div className="lp-w lp-foot"><span><b style={{ color: '#111827' }}>Bloodbound</b> - Blood Donor and Donation Camp Coordination System</span><span>Software Engineering (CT-365), Group 02</span></div>
+      <SiteFooter cta />
     </div>
   )
 }

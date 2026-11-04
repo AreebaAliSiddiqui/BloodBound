@@ -51,3 +51,11 @@
 .lp-cta a { display:inline-block; background:#fff; color:var(--rd); font-weight:700; padding:16px 34px; border-radius:999px; font-size:17px; }
 .lp-foot { padding-top:28px; padding-bottom:28px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:14px; color:var(--mu); }
 @media (max-width:600px) { .lp h1 { font-size:44px; } .lp h2 { font-size:34px; } }
+
+/* solid red header bar */
+.lp-top { background:var(--r); color:#fff; }
+.lp-top a { color:#fff; }
+.lp-top .lp-g { border-color:#fff; color:#fff; }
+.lp-top .lp-g:hover { background:#fff; color:var(--r); }
+.lp-top .lp-b { background:#fff; color:var(--r) !important; }
+.lp-top .lp-b:hover { background:#FDECEF; }
