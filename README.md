@@ -328,7 +328,7 @@ node --test --test-concurrency=1 "Tests/*.test.js"
 
 <div align="center">
 
-Built by **Areeba Ali** and **Rani** for Software Engineering (CT-365), Group 02.
+Built by **Areeba Ali**, **Rani** and **Wajeeh Ul Hassan** for Software Engineering (CT-365), Group 02.
 
 *Every donation is someone's second chance.*
 
