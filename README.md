@@ -18,7 +18,7 @@
 |---|---|
 | **Course** | Software Engineering (CT-365), Complex Computing Problem |
 | **Group** | 02 |
-| **Team** | Areeba Ali (TCT-24004, team leader), Rani (TCT-24024) |
+| **Team** | Areeba Ali (TCT-24004, team leader), Rani (TCT-24024), Wajeeh Ul Hassan(TCT-24031) |
 | **Institution** | Thar Institute of Engineering, Sciences and Technology (TIEST), a constituent college of NED University |
 | **Repository** | https://github.com/AreebaAliSiddiqui/Bloodbound |
 | **Tracking** | Jira board, project `SCRUM` |
