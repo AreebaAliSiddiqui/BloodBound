@@ -14,7 +14,13 @@
 
 ## Result
 Paste the console output of the run here, with the date:
-
+PS F:\5th semester\Software Engineering\Bloodbound> node Tests/public.test.js
+PASS TC-PUB-01 camps endpoint works without a token
+PASS TC-PUB-02 camps expose no private fields and only open camps
+PASS TC-PUB-03 live-request endpoint works without a token
+PASS TC-PUB-04 live request exposes no private fields and is not expired
+PASS TC-PUB-05 existing camps API still requires login
+PASS TC-PUB-06 existing requests API still requires login
 ```
 (run `node Tests/public.test.js` and paste output)
 ```
