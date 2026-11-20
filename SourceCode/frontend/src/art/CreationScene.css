@@ -15,3 +15,7 @@
 /* Dark bottom strip with the project name and credits */
 .cs-bar { background:#5C0A18; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding:18px 24px; font-size:14px; }
 .cs-love { display:inline-flex; align-items:center; gap:6px; }
+
+/* The landing page's link style made this button's text inherit white. This rule is more specific, so the text stays dark red. */
+.cs a.cs-btn { color:#7D0E22; }
+.cs a.cs-btn:hover { background:#FDECEF; }
