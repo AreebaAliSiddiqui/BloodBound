@@ -79,34 +79,39 @@ There are no separate portals. There is **one website and one sign-in**, and the
 ## Screenshots
 
 ### Public landing page
+The homepage displays the real live emergency blood request, including blood group, units, hospital, confirmed donors and time remaining. Patient details stay private.
 
-The homepage shows the real live request straight from the database: blood group, units, hospital, confirmed donors and time left. Patient details stay private.
+![Public landing page](Design/screenshots/01-landing-live-request.jpg)
 
-![Landing page with live request](Design/screenshots/01-landing-live-request.jpg)
-
-### Donation camps open now
-
-Published camps appear for everyone, with real dates, times and slots left.
+### Donation camps
+Visitors can browse published donation camps with their dates, timings and available slots.
 
 ![Open donation camps](Design/screenshots/02-open-donation-camps.jpg)
 
+### Landing page call to action
+The landing page provides clear navigation and calls to action for visitors to register, donate blood or explore donation camps.
+
+![Landing page CTA](Design/screenshots/03-landing-cta.jpg)
+
 ### Donor workspace
+Donors can view their eligibility status, emergency blood requests, notifications and upcoming camp bookings.
 
-After signing in, a donor sees their eligibility, matched emergency alerts and upcoming bookings.
+![Donor dashboard](Design/screenshots/04-donor-home.jpg)
 
-![Donor home](Design/screenshots/03-donor-home.jpg)
+### Hospital workspace
+Hospital staff can create emergency blood requests, monitor donor responses and manage request statuses.
+
+![Hospital workspace](Design/screenshots/05-hospital-workspace.png)
 
 ### Camp organizer workspace
+Organizers can manage donation camps, monitor bookings, check in donors and record collected blood units.
 
-Organizers manage their camps, with live booking, check-in and unit counts, and open the roster on the day.
-
-![Organizer camps](Design/screenshots/04-organizer-camps.jpg)
+![Organizer dashboard](Design/screenshots/06-organizer-camps.jpg)
 
 ### Admin dashboard
+Admins can monitor platform statistics, manage users and moderate emergency requests and donation camps.
 
-Admins get platform-wide statistics for users, blood requests and camps, plus user and request moderation.
-
-![Admin dashboard](Design/screenshots/05-admin-dashboard.jpg)
+![Admin dashboard](Design/screenshots/07-admin-dashboard.jpg)
 
 ## How it works
 
