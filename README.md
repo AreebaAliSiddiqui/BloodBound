@@ -1,3 +1,4 @@
+
 <div align="center">
 
 # 🩸 Bloodbound
@@ -17,10 +18,9 @@
 | | |
 |---|---|
 | **Course** | Software Engineering (CT-365), Complex Computing Problem |
-| **Group** | 02 |
-| **Team** | Areeba Ali (TCT-24004, team leader), Rani (TCT-24024), Wajeeh Ul Hassan(TCT-24031) |
+| **Team** | Areeba Ali (TCT-24004, team leader), Rani (TCT-24024), Wajeeh Ul Hassan (TCT-24031) |
 | **Institution** | Thar Institute of Engineering, Sciences and Technology (TIEST), a constituent college of NED University |
-| **Repository** | https://github.com/AreebaAliSiddiqui/Bloodbound |
+| **Repository** | [Bloodbound](https://github.com/AreebaAliSiddiqui/Bloodbound) |
 | **Tracking** | Jira board, project `SCRUM` |
 
 ---
@@ -79,29 +79,34 @@ There are no separate portals. There is **one website and one sign-in**, and the
 ## Screenshots
 
 ### Public landing page
+
 The homepage shows the real live request straight from the database: blood group, units, hospital, confirmed donors and time left. Patient details stay private.
 
-![Landing page with live request](Design/screenshots/01-landing-live-request.png)
+![Landing page with live request](Design/screenshots/01-landing-live-request.jpg)
 
 ### Donation camps open now
+
 Published camps appear for everyone, with real dates, times and slots left.
 
-![Open donation camps](Design/screenshots/02-open-donation-camps.png)
+![Open donation camps](Design/screenshots/02-open-donation-camps.jpg)
 
 ### Donor workspace
+
 After signing in, a donor sees their eligibility, matched emergency alerts and upcoming bookings.
 
-![Donor home](Design/screenshots/03-donor-home.png)
+![Donor home](Design/screenshots/03-donor-home.jpg)
 
 ### Camp organizer workspace
+
 Organizers manage their camps, with live booking, check-in and unit counts, and open the roster on the day.
 
-![Organizer camps](Design/screenshots/04-organizer-camps.png)
+![Organizer camps](Design/screenshots/04-organizer-camps.jpg)
 
 ### Admin dashboard
+
 Admins get platform-wide statistics for users, blood requests and camps, plus user and request moderation.
 
-![Admin dashboard](Design/screenshots/05-admin-dashboard.png)
+![Admin dashboard](Design/screenshots/05-admin-dashboard.jpg)
 
 ## How it works
 
@@ -314,7 +319,7 @@ node --test --test-concurrency=1 "Tests/*.test.js"
 - **Commits** follow Conventional Commits with the Jira ticket, for example `feat(SCRUM-35): add donor slot booking with capacity limits`. Types used: `feat`, `fix`, `test`, `docs`, `chore`, `style`.
 - **Branches:** work happens on feature or documentation branches and is merged into `main`.
 - **Tracking:** every task is a ticket on the Jira board (project `SCRUM`), planned in sprints with a review and retrospective each sprint.
-- **Documents** are submitted as PDF, named `SE_CCP_Group02_Bloodbound`.
+- **Documents** are submitted as PDF, named `SE_CCP_Bloodbound`.
 
 ## Known limitations
 
@@ -328,7 +333,7 @@ node --test --test-concurrency=1 "Tests/*.test.js"
 
 <div align="center">
 
-Built by **Areeba Ali**, **Rani** and **Wajeeh Ul Hassan** for Software Engineering (CT-365), Group 02.
+Built by **Areeba Ali**, **Rani** and **Wajeeh Ul Hassan** for Software Engineering (CT-365).
 
 *Every donation is someone's second chance.*
 
