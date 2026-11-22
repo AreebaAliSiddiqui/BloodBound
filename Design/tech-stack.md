@@ -3,7 +3,7 @@
 ## Selected Stack
 * **Frontend:** React (Vite) + Tailwind CSS
 * **Backend:** Node.js (Express.js)
-* **Database:** PostgreSQL (Hosted via Supabase free tier / Local PostgreSQL)
+* **Database:** PostgreSQL (Hosted via Neon free tier)
 * **Version Control:** Git & GitHub
 
 ## Decision Rationale
